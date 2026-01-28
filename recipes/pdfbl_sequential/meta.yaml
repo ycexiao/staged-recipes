@@ -1,0 +1,87 @@
+# Note: there are many handy hints in comments in this example -- remove them when you've finalized your recipe
+# If your package is python based, we recommend using Grayskull to generate it instead:
+# https://github.com/conda-incubator/grayskull
+
+# Jinja variables help maintain the recipe as you'll update the version only here.
+# Using the name variable with the URL in line 16 is convenient
+# when copying and pasting from another recipe, but not really needed.
+{% set python_min = "3.11" %}
+{% set name = "pdfbl.sequential" %}
+{% set version = "0.0.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  # url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  # If getting the source from GitHub, remove the line above,
+  # uncomment the line below, and modify as needed. Use releases if available:
+  # url: https://github.com/simplejson/simplejson/releases/download/{{ version }}/simplejson-{{ version }}.tar.gz
+  # and otherwise fall back to archive:
+  url: https://github.com/PDF-bl/pdfbl.sequential/archive/refs/tags/{{ version }}.tar.gz
+  sha256: 2b3a0c466fb4a1014ea131c2b8ea7c519f9278eba73d6fcb361b7bdb4fd494e9
+  # sha256 is the preferred checksum -- you can get it for a file with:
+  #  `openssl sha256 <file name>`.
+  # You may need the openssl package, available on conda-forge:
+  #  `conda install openssl -c conda-forge``
+
+build:
+  # Uncomment the following line if the package is pure Python and the recipe is exactly the same for all platforms.
+  # It is okay if the dependencies are not built for all platforms/versions, although selectors are still not allowed.
+  # See https://conda-forge.org/docs/maintainer/knowledge_base.html#noarch-python for more details.
+  noarch: python
+  # If the installation is complex, or different between Unix and Windows, use separate bld.bat and build.sh files instead of this key.
+  # By default, the package will be built for the Python versions supported by conda-forge and for all major OSs.
+  # Add the line "skip: True  # [py<35]" (for example) to limit to Python 3.5 and newer, or "skip: True  # [not win]" to limit to Windows.
+  # More info about selectors can be found in the conda-build docs: 
+  # https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#preprocessing-selectors
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+
+requirements:
+  host:
+    - python  {{ python_min }}
+    - setuptools
+    - setuptools-git-versioning >=2.0
+    - pip
+  run:
+    - python  {{ python_min }}
+    - numpy
+    - scipy
+    - networkx
+    - pyqt
+    - pyqtgraph
+    - psutil
+    - diffpy.cmi 
+
+test:
+  requires:
+    - pip
+    - pytest
+    - pytest-mock
+    - pytest-env
+  source_files:
+    - tests
+  commands:
+    - pip check
+    - pytest
+
+about:
+  home: https://github.com/PDF-bl/pdfbl.sequential/
+  summary: 'Automated sequential refinements of PDF data'
+  description: |
+    Scripts for running sequential PDF refinements using diffpy.cmi automatically
+  license: BSD-3-Clause
+  license_family: BSD
+  license_file: LICENSE.rst
+  # The doc_url and dev_url are optional.
+  doc_url: https://pdf-bl.github.io/pdfbl.sequential/
+  dev_url: https://github.com/PDF-bl/pdfbl.sequential/
+
+extra:
+  recipe-maintainers:
+    # GitHub IDs for maintainers of the recipe.
+    # Always check with the people listed below if they are OK becoming maintainers of the recipe. (There will be spam!)
+    - sbillinge
+    - ycexiao
