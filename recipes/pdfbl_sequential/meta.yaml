@@ -14,12 +14,12 @@ package:
   version: {{ version }}
 
 source:
-  # url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   # If getting the source from GitHub, remove the line above,
   # uncomment the line below, and modify as needed. Use releases if available:
   # url: https://github.com/simplejson/simplejson/releases/download/{{ version }}/simplejson-{{ version }}.tar.gz
   # and otherwise fall back to archive:
-  url: https://github.com/PDF-bl/pdfbl.sequential/archive/refs/tags/{{ version }}.tar.gz
+  # url: https://github.com/PDF-bl/pdfbl.sequential/archive/refs/tags/{{ version }}.tar.gz
   sha256: 2b3a0c466fb4a1014ea131c2b8ea7c519f9278eba73d6fcb361b7bdb4fd494e9
   # sha256 is the preferred checksum -- you can get it for a file with:
   #  `openssl sha256 <file name>`.
@@ -38,6 +38,8 @@ build:
   # https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#preprocessing-selectors
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
+  entry_points:
+    - pdfbl-cli = pdfbl.sequential.pdfbl_cli:main
 
 requirements:
   host:
