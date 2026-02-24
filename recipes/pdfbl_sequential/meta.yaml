@@ -1,10 +1,3 @@
-# Note: there are many handy hints in comments in this example -- remove them when you've finalized your recipe
-# If your package is python based, we recommend using Grayskull to generate it instead:
-# https://github.com/conda-incubator/grayskull
-
-# Jinja variables help maintain the recipe as you'll update the version only here.
-# Using the name variable with the URL in line 16 is convenient
-# when copying and pasting from another recipe, but not really needed.
 {% set python_min = "3.11" %}
 {% set name = "pdfbl.sequential" %}
 {% set version = "0.1.0" %}
@@ -61,13 +54,10 @@ about:
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.rst
-  # The doc_url and dev_url are optional.
   doc_url: https://pdf-bl.github.io/pdfbl.sequential/
   dev_url: https://github.com/PDF-bl/pdfbl.sequential/
 
 extra:
   recipe-maintainers:
-    # GitHub IDs for maintainers of the recipe.
-    # Always check with the people listed below if they are OK becoming maintainers of the recipe. (There will be spam!)
     - sbillinge
     - ycexiao
