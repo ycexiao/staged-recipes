@@ -1,0 +1,63 @@
+{% set python_min = "3.11" %}
+{% set name = "pdfbl.sequential" %}
+{% set version = "0.1.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.org/packages/source/p/pdfbl_sequential/pdfbl_sequential-{{ version }}.tar.gz
+  sha256: 695426c368117dd1da80de1c7524ce7ebf1df299b31e9fea4487979c58a1cde5
+
+build:
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+  entry_points:
+    - pdfbl-cli = pdfbl.sequential.pdfbl_sequential_app:main
+
+requirements:
+  host:
+    - python  {{ python_min }}
+    - setuptools
+    - setuptools-git-versioning >=2.0
+    - pip
+  run:
+    - python  {{ python_min }}
+    - numpy
+    - diffpy.cmi
+    - scipy
+    - prompt_toolkit
+    - matplotlib-base
+    - bg-mpl-stylesheets
+    - psutil
+
+test:
+  requires:
+    - python {{ python_min }}
+    - pip
+    - pytest
+    - pytest-mock
+    - pytest-env  
+  source_files:
+    - tests
+  commands:
+    - pip check
+    - pytest
+
+about:
+  home: https://github.com/PDF-bl/pdfbl.sequential/
+  summary: 'Automated sequential refinements of PDF data'
+  description: |
+    Scripts for running sequential PDF refinements using diffpy.cmi automatically
+  license: BSD-3-Clause
+  license_family: BSD
+  license_file: LICENSE.rst
+  doc_url: https://pdf-bl.github.io/pdfbl.sequential/
+  dev_url: https://github.com/PDF-bl/pdfbl.sequential/
+
+extra:
+  recipe-maintainers:
+    - sbillinge
+    - ycexiao
